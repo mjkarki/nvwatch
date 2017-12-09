@@ -26,5 +26,5 @@ def getNVdata():
 
 if __name__ == '__main__':
     while True:
-        print('Fan: {:3d}%\tTemp: {:2d}C ({:3d}/{:3d}W)\tMem: {:4d}/{:4d}MiB\tLoad: {:3d}%'.format(*getNVdata()))
+        print('Mem: {4:4d}MiB    Load: {6:3d}%    Temp: {1:2d}C    Power: {2:3d}W    Fan: {0:3d}%'.format(*getNVdata()))
         time.sleep(1)

@@ -1,11 +1,12 @@
 import subprocess
 import re
-import time
+from time import sleep
 
 NVSMI = r'C:\Program Files\NVIDIA Corporation\NVSMI\nvidia-smi.exe'
 
 def getNVdata():
     """
+    Calls nvidia-smi.exe to acquire GPU information.
     Returns GPU statistics in a list:
     [Fan speed (%),
      Power usage (W),
@@ -33,14 +34,16 @@ def getNVdata():
     return retval
 
 if __name__ == '__main__':
-    memmax = 0
-    loadmax = 0
-    tempmax = 0
+    memmax   = 0
+    loadmax  = 0
+    tempmax  = 0
     powermax = 0
-    fanmax = 0
+    fanmax  = 0
+
     try:
         while True:
             rslt = getNVdata()
+
             if memmax    < rslt[4]:
                 memmax   = rslt[4]
             if loadmax   < rslt[6]:
@@ -51,13 +54,13 @@ if __name__ == '__main__':
                 powermax = rslt[2]
             if fanmax    < rslt[0]:
                 fanmax   = rslt[0]
-            
+
             print('Mem: {4:4d}MiB'
                   '    Load: {6:3d}%'
                   '    Temp: {1:2d}C'
                   '    Power: {2:3d}W'
                   '    Fan: {0:3d}%'.format(*rslt))
-            time.sleep(1)
+            sleep(1)
     except KeyboardInterrupt:
         print('\nPeak values:')
         print('Mem: {0:4d}MiB'

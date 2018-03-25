@@ -34,14 +34,15 @@ def getNVdata():
     return retval
 
 if __name__ == '__main__':
+    running = True
     memmax   = 0
     loadmax  = 0
     tempmax  = 0
     powermax = 0
     fanmax  = 0
 
-    try:
-        while True:
+    while running:
+        try:
             rslt = getNVdata()
 
             if memmax    < rslt[4]:
@@ -61,10 +62,21 @@ if __name__ == '__main__':
                   '    Power: {2:3d}W'
                   '    Fan: {0:3d}%'.format(*rslt))
             sleep(1)
-    except KeyboardInterrupt:
-        print('\nPeak values:')
-        print('Mem: {0:4d}MiB'
-              '    Load: {1:3d}%'
-              '    Temp: {2:2d}C'
-              '    Power: {3:3d}W'
-              '    Fan: {4:3d}%'.format(memmax, loadmax, tempmax, powermax, fanmax))
+        except KeyboardInterrupt:
+            print('\nPeak values:')
+            print('Mem: {0:4d}MiB'
+                '    Load: {1:3d}%'
+                '    Temp: {2:2d}C'
+                '    Power: {3:3d}W'
+                '    Fan: {4:3d}%'.format(memmax, loadmax, tempmax, powermax, fanmax))
+
+            response = input('\nMonitoring paused. Continue, restart or quit [c, r, q]? ').lower()
+
+            if (response == 'r'):
+                memmax   = 0
+                loadmax  = 0
+                tempmax  = 0
+                powermax = 0
+                fanmax  = 0
+            elif (response == 'q'):
+                running = False
